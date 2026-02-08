@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { Menu, Bell } from "lucide-react";
+import { Menu } from "lucide-react";
 
 type Props = {
   onToggle?: () => void;
