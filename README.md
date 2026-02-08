@@ -1,5 +1,5 @@
 **🚀 React Dashboard DummyJSON**
-
+- Sudah deploy di Vercel : https://bayu-reactjs-dashboard-dummyjson.vercel.app/
 ---
 
 **▶️ Cara menjalankan project**
