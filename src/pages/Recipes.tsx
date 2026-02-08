@@ -142,7 +142,7 @@ function SectionTable({
   const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
+    <div className="bg-white rounded-xl shadow-sm border overflow-hidden overflow-x-auto">
       <div className="p-4 flex items-center gap-2 font-semibold text-slate-700">
         {icon}
         {title}
