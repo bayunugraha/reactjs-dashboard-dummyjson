@@ -2,7 +2,7 @@
 - Sudah deploy di Vercel : https://bayu-reactjs-dashboard-dummyjson.vercel.app/
 ---
 
-**▶️ Cara menjalankan project**
+**▶️ Cara clone dan menjalankan project**
 
 ```bash
 git clone https://github.com/bayunugraha/reactjs-dashboard-dummyjson.git
