@@ -33,7 +33,7 @@ export default function Carts() {
         </div>
 
         {/* TABLE */}
-        <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border overflow-hidden overflow-x-auto">
           <table className="w-full table-auto">
             <thead className="bg-slate-50 border-b">
               <tr>
