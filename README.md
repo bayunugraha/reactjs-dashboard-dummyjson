@@ -33,4 +33,5 @@ http://localhost:5173
 **🧰 Teknologi tambahan**
 - Icon Library (Lucide Icons)
 - Apex Charts
+- Vercel
 
