@@ -34,4 +34,5 @@ http://localhost:5173
 - Icon Library (Lucide Icons)
 - Apex Charts
 - Vercel
+- Zustand (Library State Management)
 
