@@ -15,6 +15,7 @@ export default function Carts() {
   const items = useCartStore((state) => state.items);
   const removeFromCart = useCartStore((state) => state.removeFromCart);
   const checkout = useCartStore((state) => state.checkout);
+  const clearCart = useCartStore((state) => state.clearCart);
 
   useEffect(() => {
     api.get("/carts").then((res) => setCarts(res.data.carts));
@@ -114,10 +115,23 @@ export default function Carts() {
                   Total: {formatCurrency(total)}
                 </p>
 
-                <div className="flex justify-end">
+                <div className="flex gap-3 justify-end">
+                  {/* REMOVE ALL */}
+                  <button
+                    onClick={clearCart}
+                    className="px-5 py-2 rounded-lg
+                 bg-red-100 text-red-600
+                 hover:bg-red-200
+                 text-sm font-medium transition"
+                  >
+                    Remove All
+                  </button>
+
+                  {/* CHECKOUT */}
                   <button
                     onClick={checkout}
-                    className="bg-emerald-600 text-white px-5 py-2 rounded-lg hover:bg-emerald-500 transition"
+                    className="bg-emerald-600 text-white px-5 py-2 rounded-lg
+                 hover:bg-emerald-500 transition text-sm font-medium"
                   >
                     Checkout
                   </button>

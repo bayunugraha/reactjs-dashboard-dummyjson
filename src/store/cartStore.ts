@@ -13,6 +13,7 @@ type CartStore = {
   addToCart: (item: Omit<CartItem, "quantity">) => void;
   removeFromCart: (id: number) => void;
   checkout: () => void;
+  clearCart: () => void;
 };
 
 export const useCartStore = create<CartStore>()(
@@ -44,6 +45,8 @@ export const useCartStore = create<CartStore>()(
       checkout: () => {
         set({ items: [] });
       },
+
+      clearCart: () => set({ items: [] }),
     }),
     {
       name: "cart-storage", // 🔥 nama key localStorage
