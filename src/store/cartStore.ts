@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 type CartItem = {
   id: number;
@@ -7,44 +8,45 @@ type CartItem = {
   quantity: number;
 };
 
-type CartState = {
+type CartStore = {
   items: CartItem[];
-  addToCart: (product: Omit<CartItem, "quantity">) => void;
+  addToCart: (item: Omit<CartItem, "quantity">) => void;
   removeFromCart: (id: number) => void;
-  clearCart: () => void;
   checkout: () => void;
 };
 
-export const useCartStore = create<CartState>((set, get) => ({
-  items: [],
+export const useCartStore = create<CartStore>()(
+  persist(
+    (set, get) => ({
+      items: [],
 
-  addToCart: (product) =>
-    set((state) => {
-      const existing = state.items.find((i) => i.id === product.id);
+      addToCart: (item) => {
+        const existing = get().items.find((i) => i.id === item.id);
 
-      if (existing) {
-        return {
-          items: state.items.map((i) =>
-            i.id === product.id ? { ...i, quantity: i.quantity + 1 } : i,
-          ),
-        };
-      }
+        if (existing) {
+          set({
+            items: get().items.map((i) =>
+              i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i,
+            ),
+          });
+        } else {
+          set({
+            items: [...get().items, { ...item, quantity: 1 }],
+          });
+        }
+      },
 
-      return {
-        items: [...state.items, { ...product, quantity: 1 }],
-      };
+      removeFromCart: (id) =>
+        set({
+          items: get().items.filter((item) => item.id !== id),
+        }),
+
+      checkout: () => {
+        set({ items: [] });
+      },
     }),
-
-  removeFromCart: (id) =>
-    set((state) => ({
-      items: state.items.filter((i) => i.id !== id),
-    })),
-
-  clearCart: () => set({ items: [] }),
-
-  checkout: () => {
-    const items = get().items;
-    console.log("Checkout success:", items);
-    set({ items: [] });
-  },
-}));
+    {
+      name: "cart-storage", // 🔥 nama key localStorage
+    },
+  ),
+);
