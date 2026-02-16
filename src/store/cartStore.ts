@@ -10,16 +10,19 @@ type CartItem = {
 
 type CartStore = {
   items: CartItem[];
+  hasCheckout: boolean; // ✅ notifikasi checkout
   addToCart: (item: Omit<CartItem, "quantity">) => void;
   removeFromCart: (id: number) => void;
   checkout: () => void;
   clearCart: () => void;
+  resetCheckout: () => void; // ✅ reset notifikasi
 };
 
 export const useCartStore = create<CartStore>()(
   persist(
     (set, get) => ({
       items: [],
+      hasCheckout: false, // ✅ default
 
       addToCart: (item) => {
         const existing = get().items.find((i) => i.id === item.id);
@@ -43,13 +46,24 @@ export const useCartStore = create<CartStore>()(
         }),
 
       checkout: () => {
-        set({ items: [] });
+        set({
+          items: [],
+          hasCheckout: true, // ✅ trigger notifikasi
+        });
       },
 
-      clearCart: () => set({ items: [] }),
+      clearCart: () =>
+        set({
+          items: [],
+        }),
+
+      resetCheckout: () =>
+        set({
+          hasCheckout: false, // ✅ hilangkan notifikasi
+        }),
     }),
     {
-      name: "cart-storage", // 🔥 nama key localStorage
+      name: "cart-storage", // 🔥 key localStorage
     },
   ),
 );

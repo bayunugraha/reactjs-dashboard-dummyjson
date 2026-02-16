@@ -1,5 +1,6 @@
-import { useLocation } from "react-router-dom";
-import { Menu } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Menu, ShoppingCart, Bell } from "lucide-react";
+import { useCartStore } from "../../store/cartStore";
 
 type Props = {
   onToggle?: () => void;
@@ -7,6 +8,13 @@ type Props = {
 
 export default function Navbar({ onToggle }: Props) {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const items = useCartStore((state) => state.items);
+  const hasCheckout = useCartStore((state) => state.hasCheckout);
+  const resetCheckout = useCartStore((state) => state.resetCheckout);
+
+  const totalQuantity = items.reduce((acc, item) => acc + item.quantity, 0);
 
   const getTitle = () => {
     switch (location.pathname) {
@@ -44,7 +52,35 @@ export default function Navbar({ onToggle }: Props) {
         </div>
 
         {/* RIGHT */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-6">
+          {/* Checkout Notification */}
+          {hasCheckout && (
+            <button
+              onClick={() => {
+                navigate("/carts");
+                resetCheckout();
+              }}
+              className="relative inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-green-100 text-green-700 text-sm font-medium hover:bg-green-200 transition"
+            >
+              <Bell className="w-4 h-4" />
+              Checkout Success
+            </button>
+          )}
+
+          {/* Cart Icon */}
+          <button
+            onClick={() => navigate("/carts")}
+            className="relative inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-slate-100 transition"
+          >
+            <ShoppingCart className="w-5 h-5 text-slate-700" />
+
+            {totalQuantity > 0 && (
+              <span className="absolute -top-1 -right-1 bg-blue-900 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                {totalQuantity}
+              </span>
+            )}
+          </button>
+
           {/* User */}
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-full bg-blue-900 text-white flex items-center justify-center text-sm font-semibold">
